@@ -1,5 +1,6 @@
 # Escargot
 require 'elasticsearch'
+require 'escargot/configuration'
 require 'escargot/activerecord_ex'
 require 'escargot/elasticsearch_ex'
 require 'escargot/local_indexing'
@@ -80,8 +81,8 @@ module Escargot
     def self.register_all_models
       models = []
       # Search all Models in the application Rails
-      Dir[File.join("#{Rails.root}/app/models".split(/\\/), "**", "*.rb")].each do |file|
-        model = file.gsub(/#{Rails.root}\/app\/models\/(.*?)\.rb/,'\1').classify.constantize
+      Dir[File.join("#{Configuration.app_root}/app/models".split(/\\/), "**", "*.rb")].each do |file|
+        model = file.gsub(/#{Configuration.app_root}\/app\/models\/(.*?)\.rb/,'\1').classify.constantize
         unless models.include?(model)
           require file
         end
