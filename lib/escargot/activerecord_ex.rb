@@ -178,9 +178,11 @@ module Escargot
         options[:index] ||= self.class.index_name
         options[:type]  ||= self.class.name.underscore.singularize.gsub(/\//,'-')
         options[:id]    ||= self.id.to_s
+
+        item = self.class.find(self.id)
         
         Escargot.connection.index(
-          self.respond_to?(:indexed_json_document) ? self.indexed_json_document : self.to_json,
+            item.respond_to?(:indexed_json_document) ? item.indexed_json_document : item.to_json,
           options
         )
         
